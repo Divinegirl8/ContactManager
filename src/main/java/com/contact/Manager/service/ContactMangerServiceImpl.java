@@ -3,10 +3,13 @@ package com.contact.Manager.service;
 import com.contact.Manager.data.model.CallHistoryEntry;
 import com.contact.Manager.data.model.Contact;
 import com.contact.Manager.data.model.User;
+import com.contact.Manager.data.model.UserMessage;
 import com.contact.Manager.data.repository.CallHistoryRepository;
 import com.contact.Manager.data.repository.ContactRepository;
 import com.contact.Manager.data.repository.UserRepository;
 import com.contact.Manager.dtos.request.AddContactRequest;
+import com.contact.Manager.dtos.request.ComposeMessageRequest;
+import com.contact.Manager.dtos.request.DeleteMessageRequest;
 import com.contact.Manager.dtos.request.RegisterRequest;
 import com.contact.Manager.exception.ContactExist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,8 @@ public class ContactMangerServiceImpl implements ContactManagerService {
     private ContactServiceImpl contactService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MessageService messageService;
 
 
     @Override
@@ -89,4 +94,30 @@ public class ContactMangerServiceImpl implements ContactManagerService {
     public List<CallHistoryEntry> callHistory(){
         return contactService.callHistory();
     }
+
+    @Override
+    public void composeMessage(ComposeMessageRequest composeMessageRequest) {
+      messageService.composeMessage(composeMessageRequest.getNumber(), composeMessageRequest.getWriteUp());
+    }
+
+    @Override
+    public void deleteMessage(DeleteMessageRequest deleteMessageRequest) {
+      messageService.deleteMessage(deleteMessageRequest.getNumber(), deleteMessageRequest.getMessage());
+    }
+
+    @Override
+    public List<UserMessage> findAllMessages() {
+        return messageService.findAllMessage();
+    }
+
+    @Override
+    public void deleteAllMessage() {
+        messageService.deleteAllMessages();
+    }
+
+    @Override
+    public void findMessage(String number) {
+       messageService.findMessage(number);
+    }
+
 }
