@@ -2,13 +2,17 @@ package com.contact.Manager.controller;
 
 import com.contact.Manager.data.model.CallHistoryEntry;
 import com.contact.Manager.data.model.Contact;
+import com.contact.Manager.data.model.UserMessage;
 import com.contact.Manager.dtos.request.AddContactRequest;
+import com.contact.Manager.dtos.request.ComposeMessageRequest;
+import com.contact.Manager.dtos.request.DeleteMessageRequest;
 import com.contact.Manager.dtos.request.RegisterRequest;
 import com.contact.Manager.dtos.response.*;
 import com.contact.Manager.service.ContactMangerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -128,6 +132,77 @@ public class ContactManagerController {
         catch (Exception exception){
             callHistoryResponse.setMessage(exception.getMessage());
             return new ResponseEntity<>(new ApiResponse(false,callHistoryResponse), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/composeMessage")
+    public ResponseEntity<?> composeMessage(ComposeMessageRequest composeMessageRequest){
+        ComposeMessageResponse composeMessageResponse = new ComposeMessageResponse();
+
+        try {
+            contactMangerService.composeMessage(composeMessageRequest);
+            composeMessageResponse.setMessage("message composed");
+            return new ResponseEntity<>(new ApiResponse(true,composeMessageResponse), HttpStatus.ACCEPTED);
+
+        } catch (Exception exception){
+            composeMessageResponse.setMessage(exception.getMessage());
+            return new ResponseEntity<>(new ApiResponse(false,composeMessageResponse), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/deleteMessage")
+    public ResponseEntity<?> deleteMessage(DeleteMessageRequest deleteMessageRequest){
+        DeleteMessageResponse deleteMessageResponse = new DeleteMessageResponse();
+
+        try {
+            contactMangerService.deleteMessage(deleteMessageRequest);
+            deleteMessageResponse.setMessage("message deleted");
+            return new ResponseEntity<>(new ApiResponse(true,deleteMessageResponse), HttpStatus.ACCEPTED);
+        } catch (Exception exception){
+            deleteMessageResponse.setMessage(exception.getMessage());
+            return new ResponseEntity<>(new ApiResponse(false,deleteMessageResponse), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findAllMessage")
+    public  ResponseEntity<?> findMessage(){
+        FindMessageResponse findMessageResponse = new FindMessageResponse();
+
+        try {
+            List<UserMessage> messageList = contactMangerService.findAllMessages();
+            findMessageResponse.setMessage(messageList.toString());
+            return new ResponseEntity<>(new ApiResponse(true,findMessageResponse), HttpStatus.ACCEPTED);
+        } catch (Exception exception){
+            findMessageResponse.setMessage(exception.getMessage());
+            return new ResponseEntity<>(new ApiResponse(false,findMessageResponse), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/deleteAllMessage")
+    public ResponseEntity<?> deleteAllMessage(){
+        DeleteMessageResponse deleteMessageResponse = new DeleteMessageResponse();
+
+        try {
+            contactMangerService.deleteAllMessage();
+            deleteMessageResponse.setMessage("All messages has been deleted");
+            return new ResponseEntity<>(new ApiResponse(true,deleteMessageResponse), HttpStatus.ACCEPTED);
+        } catch (Exception exception){
+            deleteMessageResponse.setMessage(exception.getMessage());
+            return new ResponseEntity<>(new ApiResponse(false,deleteMessageResponse), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/findMessage/{number}")
+    public ResponseEntity<?> findMessage(@PathVariable("number") String number){
+        FindMessageResponse findMessageResponse = new FindMessageResponse();
+
+        try {
+           UserMessage userMessage = contactMangerService.findMessage(number);
+            findMessageResponse.setMessage(userMessage+"");
+            return new ResponseEntity<>(new ApiResponse(true,findMessageResponse), HttpStatus.ACCEPTED);
+        }catch (Exception exception){
+            findMessageResponse.setMessage(exception.getMessage());
+            return new ResponseEntity<>(new ApiResponse(false,findMessageResponse), HttpStatus.BAD_REQUEST);
         }
     }
 

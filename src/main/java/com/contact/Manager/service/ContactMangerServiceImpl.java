@@ -116,8 +116,8 @@ public class ContactMangerServiceImpl implements ContactManagerService {
     }
 
     @Override
-    public void findMessage(String number) {
-       messageService.findMessage(number);
+    public UserMessage findMessage(String number) {
+      return messageService.findMessage(number);
     }
 
 }

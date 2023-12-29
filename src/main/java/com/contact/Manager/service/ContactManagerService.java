@@ -24,7 +24,7 @@ public interface ContactManagerService {
     List<UserMessage> findAllMessages();
 
     void deleteAllMessage();
-    void findMessage(String number);
+    UserMessage findMessage(String number);
 
 
 
