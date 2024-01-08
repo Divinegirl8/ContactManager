@@ -64,7 +64,6 @@ public class ContactServiceImpl implements ContactService{
 
     @Override
     public void dialNumber(String number) {
-
         CallHistoryEntry callHistoryEntry = new CallHistoryEntry();
         callHistoryEntry.setNumber(number);
         callHistoryEntry.setLocalDateTime(LocalDateTime.now());

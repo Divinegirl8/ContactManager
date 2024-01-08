@@ -8,6 +8,7 @@ import com.contact.Manager.exception.MessageNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class MessageServiceImpl implements MessageService{
         UserMessage userMessage = new UserMessage();
         userMessage.setNumber(contact.getNumber());
         userMessage.setComposeMessage(writeUp);
+        userMessage.setLocalDateTime(LocalDateTime.now());
         messageRepository.save(userMessage);
 
     }
