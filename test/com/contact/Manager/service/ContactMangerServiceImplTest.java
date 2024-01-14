@@ -101,6 +101,23 @@ class ContactMangerServiceImplTest {
 
     }
 
+    @Test void addContact_BlockContact_UnBlockContact(){
+        AddContactRequest addContactRequest = new AddContactRequest();
+        addContactRequest.setName("name");
+        addContactRequest.setNumber("090876");
+        contactMangerService.addContact(addContactRequest);
+
+        assertFalse(contactMangerService.findContact("name").isBlockContact());
+
+        contactMangerService.blockContact("name");
+        assertTrue(contactMangerService.findContact("name").isBlockContact());
+
+        contactMangerService.unBlockContact("name");
+        assertFalse(contactMangerService.findContact("name").isBlockContact());
+
+    }
+
+
 
     @Test void addContactTwice_DeleteAllContact(){
         AddContactRequest addContactRequest = new AddContactRequest();

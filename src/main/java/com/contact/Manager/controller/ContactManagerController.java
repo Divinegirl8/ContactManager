@@ -12,7 +12,6 @@ import com.contact.Manager.service.ContactMangerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -92,6 +91,23 @@ public class ContactManagerController {
             return new ResponseEntity<>(new ApiResponse(false,blockContactResponse), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/unBlockContact")
+    public ResponseEntity<?> unBlockContact(@RequestBody String name){
+        UnBlockContactResponse unBlockContactResponse = new UnBlockContactResponse();
+
+        try {
+            contactMangerService.unBlockContact(name);
+            unBlockContactResponse.setMessage("Contact unblocked");
+            return new ResponseEntity<>(new ApiResponse(true,unBlockContactResponse), HttpStatus.ACCEPTED);
+        } catch (Exception e){
+            unBlockContactResponse.setMessage(e.getMessage());
+            return new ResponseEntity<>(new ApiResponse(false,unBlockContactResponse), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
 
     @DeleteMapping("/deleteAllContact")
     public ResponseEntity<?> deleteAllContact(){

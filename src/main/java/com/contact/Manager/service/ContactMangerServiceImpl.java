@@ -81,6 +81,11 @@ public class ContactMangerServiceImpl implements ContactManagerService {
     }
 
     @Override
+    public void unBlockContact(String name) {
+     contactService.unBlockContact(name);
+    }
+
+    @Override
     public void deleteAllContact() {
      contactService.deleteAllContact();
     }

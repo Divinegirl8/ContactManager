@@ -16,6 +16,8 @@ public interface ContactManagerService {
     Contact findContact(String name);
     void deleteContact(String number);
     void blockContact(String name);
+
+    void unBlockContact(String name);
     void deleteAllContact();
     void dialNumber(String number);
     List<CallHistoryEntry> callHistory();

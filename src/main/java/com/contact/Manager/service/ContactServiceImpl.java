@@ -57,6 +57,15 @@ public class ContactServiceImpl implements ContactService{
     }
 
     @Override
+    public void unBlockContact(String name) {
+        Contact contact = contactRepository.findContactByName(name);
+        if (contact == null) throw  new ContactNotFound(name+ " not found");
+
+        contact.setBlockContact(false);
+        contactRepository.save(contact);
+    }
+
+    @Override
     public void deleteAllContact() {
      List<Contact> contacts = findAllContacts();
      contactRepository.deleteAll(contacts);
